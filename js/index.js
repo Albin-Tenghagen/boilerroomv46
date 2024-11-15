@@ -14,11 +14,13 @@ formHead.textContent = "Anteckningsformulär"
 const inputTitle = document.createElement("input")
 formNode.appendChild(inputTitle)
 inputTitle.setAttribute("id", "objectTitle")
+let inputTitleValue = document.getElementById("objectTitle")
 
 //*Created input element for assigning the objects description
 const inputDescription = document.createElement("input")
 formNode.appendChild(inputDescription)
 inputDescription.setAttribute("id", "objectDescription")
+let inputDescriptionValue = document.getElementById("objectDescription")
 
 //* Created button element for saving the inputs and creating the Antecknings object
 const saveButton = document.createElement("button")
@@ -27,14 +29,21 @@ saveButton.textContent = "Save note"
 saveButton.setAttribute("id", "objectSave")
 //---------------------------------------------------------------------------------
 
+//---------------------------------Container for Notes-----------------------------
+const taskContainer = document.createElement("main")
+taskContainer.setAttribute("id", "taskContainer")
+document.body.appendChild(taskContainer)
+//---------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
 //* Array for the objects
-let notesArray = [];
+const notesArray = [];
 //---------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------
 //* Object template
-let noteObjectTemplate = {
+const noteObjectTemplate = {
     id: undefined,
     title:  "",
     description: "",
@@ -43,3 +52,75 @@ let noteObjectTemplate = {
 //---------------------------------------------------------------------------------
 //  :kolon ;semikolon ,kommatecken .punkt 'tick' `Backtick` ´fronttick´ "Citattecken" ''
 
+//*--function for saving and creating note objects----------------------------------------
+
+saveButton.addEventListener("click", function(){
+    if(inputTitleValue.value.trim() === "" || inputDescriptionValue.value.trim() === ""){
+        alert("försök igen scrub")
+        
+        //TODO clear placeholder
+        inputTitle.setAttribute("placeholder", "Måste fylla i fältet")
+        
+        inputDescription.setAttribute("placeholder", "Måste fylla i fältet")
+        
+        formNode.style.animation = "shake 0.5s ease"
+
+        formNode.addEventListener("animationend", () => {
+            inputFieldTask.style.animation = "";
+        });   
+        
+   
+    } else {
+        console.log("creation came here")
+        //* Creates the HTML elements that corresponds to the objects
+        let singularNote = document.createElement("div");
+        taskContainer.appendChild(singularNote)
+        singularNote.setAttribute("class", "noteObject")
+        
+        let objectTitle = document.createElement("h3")
+        singularNote.appendChild(objectTitle)
+        objectTitle.textContent = inputTitle.value;
+        objectTitle.setAttribute("class", "objectTitle")
+
+        let objectDescription = document.createElement("p")
+        singularNote.appendChild(objectDescription);
+        objectDescription.textContent = inputDescription.value
+        objectDescription.setAttribute("class", "objectDescription")
+
+        let timeOfEntry = document.createElement("p");
+        singularNote.appendChild(timeOfEntry)
+
+        let deleteButton = document.createElement("button")
+        deleteButton.setAttribute("class", "deleteButton")
+        deleteButton.textContent = "delete note"
+        singularNote.appendChild(deleteButton)
+        //TODOtimeOfEntry.textContent = 
+
+        //*------------------------------------------------------------
+
+        objectCreation()
+    }
+
+
+})
+//---------------------------------------------------------------------------------
+
+//-----------------------------Object Creation function----------------------------
+function objectCreation(){
+    let newNoteObject = Object.create(noteObjectTemplate)
+
+    //* object keys-----------------------------------------
+    newNoteObject.id = notesArray.length + 1;
+    newNoteObject.title = inputTitleValue.value;
+    newNoteObject.description = inputDescriptionValue.value;
+    newNoteObject.timeStamp = new Date()   
+    //*-----------------------------------------------------
+    notesArray.push(newNoteObject)
+    console.log(newNoteObject)
+
+    return;
+}
+
+console.log(notesArray)
+
+//---------------------------------------------------------------------------------
