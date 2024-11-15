@@ -1,3 +1,5 @@
+console.log("JavaScript file loaded correctly")
+
 let formNode = document.createElement("header")
 document.body.appendChild(formNode)
 
