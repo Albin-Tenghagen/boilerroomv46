@@ -98,7 +98,10 @@ saveButton.addEventListener("click", function(){
 
         //*------------------------------------------------------------
 
-        objectCreation()
+        objectCreation();
+        // clears input field after creating a task
+        inputTitle.value = "";
+        inputDescription.value = "";
     }
 
 
@@ -108,13 +111,15 @@ saveButton.addEventListener("click", function(){
 //-----------------------------Object Creation function----------------------------
 function objectCreation(){
     let newNoteObject = Object.create(noteObjectTemplate)
-
+    // let stringifiedObject = newNoteObject
     //* object keys-----------------------------------------
     newNoteObject.id = notesArray.length + 1;
     newNoteObject.title = inputTitleValue.value;
     newNoteObject.description = inputDescriptionValue.value;
     newNoteObject.timeStamp = new Date()   
     //*-----------------------------------------------------
+    localStorage.setItem(notesArray.length + 1, JSON.stringify(newNoteObject))
+
     notesArray.push(newNoteObject)
     console.log(newNoteObject)
 
