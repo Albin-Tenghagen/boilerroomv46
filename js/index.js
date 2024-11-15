@@ -50,6 +50,27 @@ const noteObjectTemplate = {
     timeStamp: undefined 
 };
 //---------------------------------------------------------------------------------
+//-----------------------------Object Creation function----------------------------
+function objectCreation(){
+    let newNoteObject = Object.create(noteObjectTemplate)
+    // let stringifiedObject = newNoteObject
+    //* object keys-----------------------------------------
+    newNoteObject.id = notesArray.length + 1;
+    newNoteObject.title = inputTitleValue.value;
+    newNoteObject.description = inputDescriptionValue.value;
+    newNoteObject.timeStamp = new Date()   
+    //*-----------------------------------------------------
+    localStorage.setItem(newNoteObject.id, JSON.stringify(newNoteObject))
+
+    notesArray.push(newNoteObject)
+    // console.log(newNoteObject)
+
+    return;
+}
+
+console.log(notesArray)
+
+//---------------------------------------------------------------------------------
 //  :kolon ;semikolon ,kommatecken .punkt 'tick' `Backtick` ´fronttick´ "Citattecken" ''
 
 //*--function for saving and creating note objects----------------------------------------
@@ -72,6 +93,11 @@ saveButton.addEventListener("click", function(){
    
     } else {
         console.log("creation came here")
+        objectCreation();
+        // localStorage.getItem(`${notesArray.length + 1}`)
+        const objectToDOM = JSON.parse(localStorage.getItem(`${notesArray.length}`))
+        console.log(objectToDOM)
+    
         //* Creates the HTML elements that corresponds to the objects
         let singularNote = document.createElement("div");
         taskContainer.appendChild(singularNote)
@@ -98,7 +124,6 @@ saveButton.addEventListener("click", function(){
 
         //*------------------------------------------------------------
 
-        objectCreation();
         // clears input field after creating a task
         inputTitle.value = "";
         inputDescription.value = "";
@@ -106,26 +131,4 @@ saveButton.addEventListener("click", function(){
 
 
 })
-//---------------------------------------------------------------------------------
-
-//-----------------------------Object Creation function----------------------------
-function objectCreation(){
-    let newNoteObject = Object.create(noteObjectTemplate)
-    // let stringifiedObject = newNoteObject
-    //* object keys-----------------------------------------
-    newNoteObject.id = notesArray.length + 1;
-    newNoteObject.title = inputTitleValue.value;
-    newNoteObject.description = inputDescriptionValue.value;
-    newNoteObject.timeStamp = new Date()   
-    //*-----------------------------------------------------
-    localStorage.setItem(notesArray.length + 1, JSON.stringify(newNoteObject))
-
-    notesArray.push(newNoteObject)
-    console.log(newNoteObject)
-
-    return;
-}
-
-console.log(notesArray)
-
 //---------------------------------------------------------------------------------
