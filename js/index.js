@@ -50,7 +50,7 @@ const noteObjectTemplate = {
     timeStamp: undefined 
 };
 //---------------------------------------------------------------------------------
-localStorage.clear()
+
 //-----------------------------Object Creation function----------------------------
 function objectCreation(){
     let newNoteObject = Object.create(noteObjectTemplate)
@@ -59,7 +59,7 @@ function objectCreation(){
     newNoteObject.id = notesArray.length + 1;
     newNoteObject.title = inputTitleValue.value;
     newNoteObject.description = inputDescriptionValue.value;
-    newNoteObject.timeStamp = Date()   
+    newNoteObject.timeStamp = new Date().toLocaleString()   
     //*-----------------------------------------------------
     localStorage.setItem(newNoteObject.id, JSON.stringify(newNoteObject))
 
@@ -80,7 +80,7 @@ saveButton.addEventListener("click", function(){
     if(inputTitleValue.value.trim() === "" || inputDescriptionValue.value.trim() === ""){
         alert("försök igen scrub")
         
-        //TODO clear placeholder
+
         inputTitle.setAttribute("placeholder", "Måste fylla i fältet")
         
         inputDescription.setAttribute("placeholder", "Måste fylla i fältet")
@@ -97,6 +97,8 @@ saveButton.addEventListener("click", function(){
         objectCreation();
         
         //TODO behöver läggas till en try and catch sats för att fånga korrupt data innan det displayas
+        //!     ^
+        //!done |
         const objectToDOM = JSON.parse(localStorage.getItem(`${notesArray.length}`))
         console.log(objectToDOM)
     
@@ -117,7 +119,6 @@ saveButton.addEventListener("click", function(){
 
         let timeOfEntry = document.createElement("p");
         timeOfEntry.textContent = objectToDOM.timeStamp;
-        //TODO timeStampen ska endast visa relevant info och inte en sträng med olika karaktärer
         singularNote.appendChild(timeOfEntry)
 
         let deleteButton = document.createElement("button")
@@ -136,3 +137,4 @@ saveButton.addEventListener("click", function(){
 
 })
 //---------------------------------------------------------------------------------
+
