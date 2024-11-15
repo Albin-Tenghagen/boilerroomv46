@@ -50,6 +50,7 @@ const noteObjectTemplate = {
     timeStamp: undefined 
 };
 //---------------------------------------------------------------------------------
+localStorage.clear()
 //-----------------------------Object Creation function----------------------------
 function objectCreation(){
     let newNoteObject = Object.create(noteObjectTemplate)
@@ -58,7 +59,7 @@ function objectCreation(){
     newNoteObject.id = notesArray.length + 1;
     newNoteObject.title = inputTitleValue.value;
     newNoteObject.description = inputDescriptionValue.value;
-    newNoteObject.timeStamp = new Date()   
+    newNoteObject.timeStamp = Date()   
     //*-----------------------------------------------------
     localStorage.setItem(newNoteObject.id, JSON.stringify(newNoteObject))
 
@@ -94,7 +95,8 @@ saveButton.addEventListener("click", function(){
     } else {
         console.log("creation came here")
         objectCreation();
-        // localStorage.getItem(`${notesArray.length + 1}`)
+        
+        //TODO behöver läggas till en try and catch sats för att fånga korrupt data innan det displayas
         const objectToDOM = JSON.parse(localStorage.getItem(`${notesArray.length}`))
         console.log(objectToDOM)
     
@@ -105,26 +107,28 @@ saveButton.addEventListener("click", function(){
         
         let objectTitle = document.createElement("h3")
         singularNote.appendChild(objectTitle)
-        objectTitle.textContent = inputTitle.value;
+        objectTitle.textContent = objectToDOM.title;
         objectTitle.setAttribute("class", "objectTitle")
 
         let objectDescription = document.createElement("p")
         singularNote.appendChild(objectDescription);
-        objectDescription.textContent = inputDescription.value
+        objectDescription.textContent = objectToDOM.description;
         objectDescription.setAttribute("class", "objectDescription")
 
         let timeOfEntry = document.createElement("p");
+        timeOfEntry.textContent = objectToDOM.timeStamp;
+        //TODO timeStampen ska endast visa relevant info och inte en sträng med olika karaktärer
         singularNote.appendChild(timeOfEntry)
 
         let deleteButton = document.createElement("button")
         deleteButton.setAttribute("class", "deleteButton")
         deleteButton.textContent = "delete note"
         singularNote.appendChild(deleteButton)
-        //TODOtimeOfEntry.textContent = 
-
+        //TODO Delete knappen Måste ha en function
+        
         //*------------------------------------------------------------
 
-        // clears input field after creating a task
+        //* clears input field after creating a task
         inputTitle.value = "";
         inputDescription.value = "";
     }
