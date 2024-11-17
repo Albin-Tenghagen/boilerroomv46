@@ -14,12 +14,14 @@ formHead.textContent = "Anteckningsformulär"
 const inputTitle = document.createElement("input")
 formNode.appendChild(inputTitle)
 inputTitle.setAttribute("id", "objectTitle")
+inputTitle.setAttribute("placeholder", "Please enter title of task")
 let inputTitleValue = document.getElementById("objectTitle")
 
 //*Created input element for assigning the objects description
 const inputDescription = document.createElement("input")
 formNode.appendChild(inputDescription)
 inputDescription.setAttribute("id", "objectDescription")
+inputDescription.setAttribute("placeholder", "Please enter the description of task")
 let inputDescriptionValue = document.getElementById("objectDescription")
 
 //* Created button element for saving the inputs and creating the Antecknings object
@@ -36,6 +38,7 @@ document.body.appendChild(taskContainer)
 //---------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------
+
 //---------------------------------------------------------------------------------
 //* Array for the objects
 const notesArray = [];
