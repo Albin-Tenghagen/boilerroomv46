@@ -143,8 +143,26 @@ saveButton.addEventListener("click", function(event){
 
 
 })
-//---------------------------------------------------------------------------------
+//---------------------Function to create older tasks------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", function(){
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage(i);
+    if(!isNaN(key)) {
+        try {
+            const oldTask = JSON.parse(localStorage.getItem(key));
+            displayOldTasks(oldTask)
+        } catch (error){
+            console.log("error in loading task from localStorage")
+        }
+    }
+    }
 
+});
+
+function displayOldTasks(oldTask) {
+
+}
+//---------------------------------------------------------------------------------
 //----------------------------delete Button----------------------------------------
 
 //---------------------------------------------------------------------------------
