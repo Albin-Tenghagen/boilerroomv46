@@ -50,6 +50,28 @@ const noteObjectTemplate = {
     timeStamp: undefined 
 };
 //---------------------------------------------------------------------------------
+
+//-----------------------------Object Creation function----------------------------
+function objectCreation(){
+    let newNoteObject = Object.create(noteObjectTemplate)
+    // let stringifiedObject = newNoteObject
+    //* object keys-----------------------------------------
+    newNoteObject.id = notesArray.length + 1;
+    newNoteObject.title = inputTitleValue.value;
+    newNoteObject.description = inputDescriptionValue.value;
+    newNoteObject.timeStamp = new Date().toLocaleString()   
+    //*-----------------------------------------------------
+    localStorage.setItem(newNoteObject.id, JSON.stringify(newNoteObject))
+
+    notesArray.push(newNoteObject)
+    // console.log(newNoteObject)
+
+    return;
+}
+
+console.log(notesArray)
+
+//---------------------------------------------------------------------------------
 //  :kolon ;semikolon ,kommatecken .punkt 'tick' `Backtick` ´fronttick´ "Citattecken" ''
 
 //*--function for saving and creating note objects----------------------------------------
@@ -58,7 +80,7 @@ saveButton.addEventListener("click", function(){
     if(inputTitleValue.value.trim() === "" || inputDescriptionValue.value.trim() === ""){
         alert("försök igen scrub")
         
-        //TODO clear placeholder
+
         inputTitle.setAttribute("placeholder", "Måste fylla i fältet")
         
         inputDescription.setAttribute("placeholder", "Måste fylla i fältet")
@@ -72,60 +94,71 @@ saveButton.addEventListener("click", function(){
    
     } else {
         console.log("creation came here")
+        objectCreation();
+        
+        //TODO behöver läggas till en try and catch sats för att fånga korrupt data innan det displayas
+        //!     ^
+        //!done |
+        const objectToDOM = JSON.parse(localStorage.getItem(`${notesArray.length}`))
+        console.log(objectToDOM)
+    
         //* Creates the HTML elements that corresponds to the objects
         let singularNote = document.createElement("div");
         taskContainer.appendChild(singularNote)
         singularNote.setAttribute("class", "noteObject")
+        singularNote.setAttribute("data-id", objectToDOM.id); 
+
         
         let objectTitle = document.createElement("h3")
         singularNote.appendChild(objectTitle)
-        objectTitle.textContent = inputTitle.value;
+        objectTitle.textContent = objectToDOM.title;
         objectTitle.setAttribute("class", "objectTitle")
 
         let objectDescription = document.createElement("p")
         singularNote.appendChild(objectDescription);
-        objectDescription.textContent = inputDescription.value
+        objectDescription.textContent = objectToDOM.description;
         objectDescription.setAttribute("class", "objectDescription")
 
         let timeOfEntry = document.createElement("p");
+        timeOfEntry.textContent = objectToDOM.timeStamp;
         singularNote.appendChild(timeOfEntry)
 
         let deleteButton = document.createElement("button")
         deleteButton.setAttribute("class", "deleteButton")
-        deleteButton.textContent = "delete note"
+        deleteButton.textContent = "delete note";
         singularNote.appendChild(deleteButton)
-        //TODOtimeOfEntry.textContent = 
+        //TODO Delete knappen Måste ha en function
 
+        function deleteNote(noteId, noteElement) {
+            // Removing from localStoorage
+            localStorage.removeItem(noteId);
+            
+            // Remove from notesArray
+            const noteIndex = notesArray.findIndex(note => note.id === parseInt(noteId));
+            if (noteIndex !== -1) {
+                notesArray.splice(noteIndex, 1);
+            }
+        
+            // Remove the note element from the DOM
+            noteElement.remove();
+        
+            console.log(`Note with ID ${noteId} deleted.`);
+        }
+
+
+        //* Delte button functionallity 
+        deleteButton.addEventListener("click", function() {
+            deleteNote(objectToDOM.id, singularNote);
+        });
+        
         //*------------------------------------------------------------
 
-        objectCreation();
-        // clears input field after creating a task
+        //* clears input field after creating a task
         inputTitle.value = "";
         inputDescription.value = "";
     }
 
 
-})
+});
 //---------------------------------------------------------------------------------
 
-//-----------------------------Object Creation function----------------------------
-function objectCreation(){
-    let newNoteObject = Object.create(noteObjectTemplate)
-    // let stringifiedObject = newNoteObject
-    //* object keys-----------------------------------------
-    newNoteObject.id = notesArray.length + 1;
-    newNoteObject.title = inputTitleValue.value;
-    newNoteObject.description = inputDescriptionValue.value;
-    newNoteObject.timeStamp = new Date()   
-    //*-----------------------------------------------------
-    localStorage.setItem(notesArray.length + 1, JSON.stringify(newNoteObject))
-
-    notesArray.push(newNoteObject)
-    console.log(newNoteObject)
-
-    return;
-}
-
-console.log(notesArray)
-
-//---------------------------------------------------------------------------------
