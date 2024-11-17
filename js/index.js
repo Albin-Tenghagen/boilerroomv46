@@ -28,7 +28,13 @@ let inputDescriptionValue = document.getElementById("objectDescription")
 const saveButton = document.createElement("button")
 formNode.appendChild(saveButton)
 saveButton.textContent = "Save note"
-saveButton.setAttribute("id", "objectSave")
+saveButton.setAttribute("id", "objectSave");
+
+const deleteAllButton = document.createElement("button");
+deleteAllButton.textContent = "Delete all notes";
+deleteAllButton.setAttribute("id", "deleteAllButton");
+formNode.appendChild(deleteAllButton);
+
 //---------------------------------------------------------------------------------
 
 //---------------------------------Container for Notes-----------------------------
@@ -59,7 +65,7 @@ function objectCreation(){
     let newNoteObject = Object.create(noteObjectTemplate)
     // let stringifiedObject = newNoteObject
     //* object keys-----------------------------------------
-    newNoteObject.id = notesArray.length + 1;
+    newNoteObject.id = localStorage.length + 1;
     newNoteObject.title = inputTitleValue.value;
     newNoteObject.description = inputDescriptionValue.value;
     newNoteObject.timeStamp = new Date().toLocaleString()   
@@ -76,6 +82,22 @@ function objectCreation(){
 
 //---------------------------------------------------------------------------------
 //  :kolon ;semikolon ,kommatecken .punkt 'tick' `Backtick` ´fronttick´ "Citattecken" ''
+
+function deleteNote(noteId, noteElement) {
+    // Removing from localStoorage
+    localStorage.removeItem(noteId);
+    
+    // Remove from notesArray
+    const noteIndex = notesArray.findIndex(note => note.id === parseInt(noteId));
+    if (noteIndex !== -1) {
+        notesArray.splice(noteIndex, 1);
+    }
+
+    // Remove the note element from the DOM
+    noteElement.remove();
+
+    console.log(`Note with ID ${noteId} deleted.`);
+}
 
 //*--function for saving and creating note objects----------------------------------------
 
@@ -113,6 +135,8 @@ saveButton.addEventListener("click", function(event){
         let singularNote = document.createElement("article");
         taskContainer.appendChild(singularNote)
         singularNote.setAttribute("class", "noteObject")
+        singularNote.setAttribute("data-id", objectToDOM.id); 
+
         
         let objectTitle = document.createElement("h3")
         singularNote.appendChild(objectTitle)
@@ -130,9 +154,15 @@ saveButton.addEventListener("click", function(event){
 
         let deleteButton = document.createElement("button")
         deleteButton.setAttribute("class", "deleteButton")
-        deleteButton.textContent = "delete note"
+        deleteButton.textContent = "delete note";
         singularNote.appendChild(deleteButton)
         //TODO Delete knappen Måste ha en function
+
+
+        //* Delete button functionallity 
+        deleteButton.addEventListener("click", function() {
+            deleteNote(objectToDOM.id, singularNote);
+        });
         
         //*------------------------------------------------------------
 
@@ -141,8 +171,19 @@ saveButton.addEventListener("click", function(event){
         inputDescription.value = "";
     }
 
+});
+
+deleteAllButton.addEventListener("click", function () {
+    if(confirm("Are you sure you want to delete all notes?")){
+        localStorage.clear();
+        notesArray.length = 0;
+        taskContainer.textContent = "";
+        console.log("All notes deleted");
+        
+    }
 
 })
+
 //---------------------Function to create older tasks------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function(){
     for (let i = 0; i < localStorage.length; i++) {
@@ -185,6 +226,5 @@ function displayOldTasks(oldTask) {
         singularNote.appendChild(deleteButton)
 }
 //---------------------------------------------------------------------------------
-//----------------------------delete Button----------------------------------------
 
-//---------------------------------------------------------------------------------
+
