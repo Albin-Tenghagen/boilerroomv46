@@ -26,7 +26,13 @@ let inputDescriptionValue = document.getElementById("objectDescription")
 const saveButton = document.createElement("button")
 formNode.appendChild(saveButton)
 saveButton.textContent = "Save note"
-saveButton.setAttribute("id", "objectSave")
+saveButton.setAttribute("id", "objectSave");
+
+const deleteAllButton = document.createElement("button");
+deleteAllButton.textContent = "Delete all notes";
+deleteAllButton.setAttribute("id", "deleteAllButton");
+formNode.appendChild(deleteAllButton);
+
 //---------------------------------------------------------------------------------
 
 //---------------------------------Container for Notes-----------------------------
@@ -73,6 +79,7 @@ console.log(notesArray)
 
 //---------------------------------------------------------------------------------
 //  :kolon ;semikolon ,kommatecken .punkt 'tick' `Backtick` ´fronttick´ "Citattecken" ''
+
 
 //*--function for saving and creating note objects----------------------------------------
 
@@ -146,7 +153,7 @@ saveButton.addEventListener("click", function(){
         }
 
 
-        //* Delte button functionallity 
+        //* Delete button functionallity 
         deleteButton.addEventListener("click", function() {
             deleteNote(objectToDOM.id, singularNote);
         });
@@ -159,6 +166,16 @@ saveButton.addEventListener("click", function(){
     }
 
 
+});
+
+deleteAllButton.addEventListener("click", function () {
+    if(confirm("Are you sure you want to delete all notes?")){
+        localStorage.clear();
+        notesArray.length = 0;
+        taskContainer.textContent = "";
+        console.log("All notes deleted");
+        
+    }
 });
 //---------------------------------------------------------------------------------
 
