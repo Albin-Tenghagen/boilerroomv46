@@ -76,7 +76,8 @@ function objectCreation(){
 
 //*--function for saving and creating note objects----------------------------------------
 
-saveButton.addEventListener("click", function(){
+saveButton.addEventListener("click", function(event){
+    event.preventDefault()
     if(inputTitleValue.value.trim() === "" || inputDescriptionValue.value.trim() === ""){
         // alert("försök igen scrub")
         
