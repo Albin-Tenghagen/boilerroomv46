@@ -2,7 +2,7 @@ console.log("JavaScript file loaded correctly")
 
 //----------------------------Form Creation------------------------------------------
 //*Created container for the form
-const formNode = document.createElement("header")
+const formNode = document.createElement("form")
 document.body.appendChild(formNode)
 
 //*created h1 element and appended to formNode
@@ -65,11 +65,11 @@ function objectCreation(){
 
     notesArray.push(newNoteObject)
     // console.log(newNoteObject)
+    console.log("Object Array", notesArray)
 
     return;
 }
 
-console.log(notesArray)
 
 //---------------------------------------------------------------------------------
 //  :kolon ;semikolon ,kommatecken .punkt 'tick' `Backtick` ´fronttick´ "Citattecken" ''
@@ -78,7 +78,7 @@ console.log(notesArray)
 
 saveButton.addEventListener("click", function(){
     if(inputTitleValue.value.trim() === "" || inputDescriptionValue.value.trim() === ""){
-        alert("försök igen scrub")
+        // alert("försök igen scrub")
         
 
         inputTitle.setAttribute("placeholder", "Måste fylla i fältet")
@@ -89,6 +89,7 @@ saveButton.addEventListener("click", function(){
 
         formNode.addEventListener("animationend", () => {
             inputFieldTask.style.animation = "";
+       
         });   
         
    
@@ -96,14 +97,16 @@ saveButton.addEventListener("click", function(){
         console.log("creation came here")
         objectCreation();
         
-        //TODO behöver läggas till en try and catch sats för att fånga korrupt data innan det displayas
-        //!     ^
-        //!done |
-        const objectToDOM = JSON.parse(localStorage.getItem(`${notesArray.length}`))
+        //* behöver läggas till en try and catch sats för att fånga korrupt data innan det displayas
+        let objectToDOM;
+        try {
+        objectToDOM = JSON.parse(localStorage.getItem(`${notesArray.length}`))
         console.log(objectToDOM)
-    
+        } catch (error){
+            console.log("Error, file is corrupt")
+        }
         //* Creates the HTML elements that corresponds to the objects
-        let singularNote = document.createElement("div");
+        let singularNote = document.createElement("article");
         taskContainer.appendChild(singularNote)
         singularNote.setAttribute("class", "noteObject")
         
@@ -138,3 +141,6 @@ saveButton.addEventListener("click", function(){
 })
 //---------------------------------------------------------------------------------
 
+//----------------------------delete Button----------------------------------------
+
+//---------------------------------------------------------------------------------
