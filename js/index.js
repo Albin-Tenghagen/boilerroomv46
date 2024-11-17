@@ -146,7 +146,7 @@ saveButton.addEventListener("click", function(event){
 //---------------------Function to create older tasks------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function(){
     for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage(i);
+        const key = localStorage.key(i);
     if(!isNaN(key)) {
         try {
             const oldTask = JSON.parse(localStorage.getItem(key));
@@ -160,7 +160,29 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function displayOldTasks(oldTask) {
+        //* Creates the HTML elements that corresponds to the objects
+        let singularNote = document.createElement("article");
+        taskContainer.appendChild(singularNote)
+        singularNote.setAttribute("class", "noteObject")
+        
+        let objectTitle = document.createElement("h3")
+        singularNote.appendChild(objectTitle)
+        objectTitle.textContent = oldTask.title;
+        objectTitle.setAttribute("class", "objectTitle")
 
+        let objectDescription = document.createElement("p")
+        singularNote.appendChild(objectDescription);
+        objectDescription.textContent = oldTask.description;
+        objectDescription.setAttribute("class", "objectDescription")
+
+        let timeOfEntry = document.createElement("p");
+        timeOfEntry.textContent = oldTask.timeStamp;
+        singularNote.appendChild(timeOfEntry)
+
+        let deleteButton = document.createElement("button")
+        deleteButton.setAttribute("class", "deleteButton")
+        deleteButton.textContent = "delete note"
+        singularNote.appendChild(deleteButton)
 }
 //---------------------------------------------------------------------------------
 //----------------------------delete Button----------------------------------------
