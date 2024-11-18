@@ -97,7 +97,7 @@ saveButton.addEventListener("click", function (event) {
         formNode.style.animation = "shake 0.5s ease";
 
         formNode.addEventListener("animationend", () => {
-            inputTitle.style.animation = "";
+            formNode.style.animation = "";
             inputDescription.style.animation = "";
         });
     } else {
