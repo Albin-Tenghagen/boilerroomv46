@@ -20,7 +20,7 @@ inputTitle.setAttribute("placeholder", "Please enter title of task");
 let inputTitleValue = document.getElementById("objectTitle");
 
 //* Created input element for assigning the object's description
-const inputDescription = document.createElement("input");
+const inputDescription = document.createElement("textarea");
 formNode.appendChild(inputDescription);
 inputDescription.setAttribute("id", "objectDescription");
 inputDescription.setAttribute("placeholder", "Please enter the description of task");
@@ -191,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Sorts the array by their id (eller timeStamp om du vill ha ordning baserat på tid)
     notesArray.sort((a, b) => a.id - b.id); //' or a.timeStamp - b.timeStamp
+    
 
     // for every note in your array it calls the function displayOldNotes to create the notes from localStorage
     notesArray.forEach(oldNote => {
