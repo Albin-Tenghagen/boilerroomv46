@@ -4,6 +4,8 @@ body {
     min-width: 90vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes shake {
@@ -42,3 +44,25 @@ body {
     height: 10vh;
     margin: 5%;
 }
+
+#taskContainer {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    padding: 3%;
+    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-rows: auto;
+}
+
+.noteObject {
+    border: 1px solid black;
+    border-radius: 2rem;
+    margin: 3%;
+    padding: 5%;
+    box-sizing: border-box;
+    grid-column: auto / span 2;
+    grid-auto-flow: row;
+}
+

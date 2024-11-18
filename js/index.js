@@ -40,9 +40,9 @@ formNode.appendChild(deleteAllButton);
 //---------------------------------------------------------------------------------
 
 //---------------------------------Container for Notes-----------------------------
-const taskContainer = document.createElement("main");
-taskContainer.setAttribute("id", "taskContainer");
-document.body.appendChild(taskContainer);
+const notesContainer = document.createElement("main");
+notesContainer.setAttribute("id", "taskContainer");
+document.body.appendChild(notesContainer);
 //---------------------------------------------------------------------------------
 
 //* Array for the objects
@@ -58,13 +58,18 @@ const noteObjectTemplate = {
 
 //-----------------------------Object Creation function----------------------------
 function objectCreation() {
+    //*Creates the new object from the template
     let newNoteObject = Object.create(noteObjectTemplate);
+    //*sets the value of the different keys------------------ 
     newNoteObject.id = localStorage.length + 1;
     newNoteObject.title = inputTitleValue.value;
     newNoteObject.description = inputDescriptionValue.value;
     newNoteObject.timeStamp = new Date().toLocaleString();
+    //*------------------------------------------------------
+    //* Converts the object to a JSON string and sets it in localStorage
     localStorage.setItem(newNoteObject.id, JSON.stringify(newNoteObject));
 
+    //*Pushes the object into notesArray
     notesArray.push(newNoteObject);
     console.log("Object Array", notesArray);
 
@@ -88,11 +93,14 @@ function deleteNote(noteId, noteElement) {
 
     console.log(`Note with ID ${noteId} deleted.`);
 }
+//---------------------------------------------------------------------------------
 
 //*--function for saving and creating note objects----------------------------------------
 
 saveButton.addEventListener("click", function (event) {
+    //*Prevents the page from reloading
     event.preventDefault();
+    //* This if else block checks to see if the input fields are empty. if they are then a placeholder gets set and the animation starts
     if (inputTitleValue.value.trim() === "" || inputDescriptionValue.value.trim() === "") {
         inputTitle.setAttribute("placeholder", "Måste fylla i fältet");
         inputDescription.setAttribute("placeholder", "Måste fylla i fältet");
@@ -117,7 +125,7 @@ saveButton.addEventListener("click", function (event) {
 
         //* Creates the HTML elements that correspond to the objects
         let singularNote = document.createElement("article");
-        taskContainer.appendChild(singularNote);
+        notesContainer.appendChild(singularNote);
         singularNote.setAttribute("class", "noteObject");
         singularNote.setAttribute("data-id", objectToDOM.id);
 
@@ -139,6 +147,7 @@ saveButton.addEventListener("click", function (event) {
         deleteButton.setAttribute("class", "deleteButton");
         deleteButton.textContent = "delete note";
         singularNote.appendChild(deleteButton);
+        //*--------------------------------------------------------
 
         // Add delete button functionality
         deleteButton.addEventListener("click", function () {
@@ -151,11 +160,12 @@ saveButton.addEventListener("click", function (event) {
     }
 });
 
+//* eventlistener that lets you delete all notes from localStorage and the page
 deleteAllButton.addEventListener("click", function () {
     if (confirm("Are you sure you want to delete all notes?")) {
         localStorage.clear();
         notesArray.length = 0;
-        taskContainer.textContent = "";
+        notesContainer.textContent = "";
         console.log("All notes deleted");
     }
 });
@@ -191,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function displayOldNotes(oldNote) {
     //* This function creates the HTML elements that display old task
     let singularNote = document.createElement("article");
-    taskContainer.appendChild(singularNote);
+    notesContainer.appendChild(singularNote);
     singularNote.setAttribute("class", "noteObject");
     singularNote.setAttribute("data-id", oldNote.id);
 
