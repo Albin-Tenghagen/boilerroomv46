@@ -20,7 +20,7 @@ inputTitle.setAttribute("placeholder", "Please enter title of task");
 let inputTitleValue = document.getElementById("objectTitle");
 
 //* Created input element for assigning the object's description
-const inputDescription = document.createElement("input");
+const inputDescription = document.createElement("textarea");
 formNode.appendChild(inputDescription);
 inputDescription.setAttribute("id", "objectDescription");
 inputDescription.setAttribute("placeholder", "Please enter the description of task");
