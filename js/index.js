@@ -162,58 +162,59 @@ deleteAllButton.addEventListener("click", function () {
 document.addEventListener("DOMContentLoaded", function () {
     let tasks = [];
 
-    // Hämta alla objekt från localStorage och lagra i en array
+    // The for loop iterates once for every item in local storage and assign their key to the variable key.
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
 
-        // Kontrollera att nyckeln är ett nummer (id)
+        // This if block checks if the localstorage item has a number as a key, if it does. The item gets parsed to oldTask
         if (!isNaN(key)) {
             try {
-                const oldTask = JSON.parse(localStorage.getItem(key));
-                tasks.push(oldTask); // Lägg till task i arrayen
+                const oldNote = JSON.parse(localStorage.getItem(key));
+                notesArray.push(oldNote); // Lägg till task i arrayen
             } catch (error) {
                 console.log("Error in loading task from localStorage", error);
             }
         }
     }
 
-    // Sortera arrayen efter id (eller timeStamp om du vill ha ordning baserat på tid)
-    tasks.sort((a, b) => a.id - b.id); // eller a.timeStamp - b.timeStamp
+    // Sorts the array by their id (eller timeStamp om du vill ha ordning baserat på tid)
+    notesArray.sort((a, b) => a.id - b.id); //' or a.timeStamp - b.timeStamp
 
-    // Visa varje task i rätt ordning
-    tasks.forEach(oldTask => {
-        displayOldTasks(oldTask);
+    // for every note in your array it calls the function displayOldNotes to create the notes from localStorage
+    notesArray.forEach(oldNote => {
+        displayOldNotes(oldNote);
     });
 });
 
-function displayOldTasks(oldTask) {
-    //* Skapa HTML-elementen för den gamla anteckningen
+function displayOldNotes(oldNote) {
+    //* This function creates the HTML elements that display old task
     let singularNote = document.createElement("article");
     taskContainer.appendChild(singularNote);
     singularNote.setAttribute("class", "noteObject");
-    singularNote.setAttribute("data-id", oldTask.id);
+    singularNote.setAttribute("data-id", oldNote.id);
 
     let objectTitle = document.createElement("h3");
     singularNote.appendChild(objectTitle);
-    objectTitle.textContent = oldTask.title;
+    objectTitle.textContent = oldNote.title;
     objectTitle.setAttribute("class", "objectTitle");
 
     let objectDescription = document.createElement("p");
     singularNote.appendChild(objectDescription);
-    objectDescription.textContent = oldTask.description;
+    objectDescription.textContent = oldNote.description;
     objectDescription.setAttribute("class", "objectDescription");
 
     let timeOfEntry = document.createElement("p");
-    timeOfEntry.textContent = oldTask.timeStamp;
+    timeOfEntry.textContent = oldNote.timeStamp;
     singularNote.appendChild(timeOfEntry);
-
+    
     let deleteButton = document.createElement("button");
     deleteButton.setAttribute("class", "deleteButton");
     deleteButton.textContent = "delete note";
     singularNote.appendChild(deleteButton);
+    //*-----------------------------------------------------------
 
-    // Lägg till delete-funktionalitet för gamla uppgifter
+    // adds the function to delete older tasks also
     deleteButton.addEventListener("click", function () {
-        deleteNote(oldTask.id, singularNote);
+        deleteNote(oldNote.id, singularNote);
     });
 }
