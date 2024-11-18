@@ -3,10 +3,12 @@ console.log("JavaScript file loaded correctly");
 //----------------------------Form Creation------------------------------------------
 //* Created container for the form
 const formNode = document.createElement("form");
+formNode.setAttribute("id", "notesForm")
 document.body.appendChild(formNode);
 
 //* Created h1 element and appended to formNode
 const formHead = document.createElement("h1");
+formHead.setAttribute("id", "formHead")
 formNode.appendChild(formHead);
 formHead.textContent = "Anteckningsformulär";
 
@@ -160,7 +162,7 @@ deleteAllButton.addEventListener("click", function () {
 
 //---------------------Function to create older tasks------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-    let tasks = [];
+    // let tasks = [];
 
     // The for loop iterates once for every item in local storage and assign their key to the variable key.
     for (let i = 0; i < localStorage.length; i++) {
